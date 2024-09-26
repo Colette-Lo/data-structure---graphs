@@ -1,9 +1,10 @@
+from queue import Queue
 from stack import Stack
 
 adj_list = {
     "A":["B", "C"],
     "B":["A", "K"],
-    "C":["D", "F"],
+    "C":["A", "D", "F"],
     "D":["C", "E", "G", "H"],
     "E":["D"],
     "F":["C", "G", "J"],
@@ -50,5 +51,24 @@ def dft(graph, start):
 
     print(visited)
 
-dft(adj_list, "J")
 
+
+def bft(graph, start):
+    queue_obj = Queue()
+    # Start from J.
+    current_node = start
+    # Push current node to the stack.
+    queue_obj.enqueue(current_node)
+    # A list of visited node.
+    visited = [current_node]
+    while queue_obj.get_size() > 0:
+        current_node = queue_obj.dequeue()
+        # Look through all the current node neighbours in alphabetical order.
+        for neighbour in sorted(graph[current_node]):
+            if neighbour not in visited:
+                queue_obj.enqueue(neighbour)
+                visited.append(neighbour)
+
+    print(visited)
+
+bft(adj_list, "J")
